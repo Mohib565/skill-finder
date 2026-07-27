@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillBridge 2026 - Career & Skill Ecosystem</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="logo">SkillBridge <span>2026</span></div>
+        <nav class="nav-links">
+            <button class="nav-btn active" onclick="switchTab('gap-analyzer')">Skill Gap Engine</button>
+            <button class="nav-btn" onclick="switchTab('cv-checker')">📄 Smart CV Checker</button>
+            <button class="nav-btn" onclick="switchTab('course-mapper')">📚 Syllabus vs Industry Mapper</button>
+            <button class="nav-btn" onclick="switchTab('skill-quiz')">⚡ Skill Quiz</button>
+        </nav>
+        <button id="reset-data-btn" class="btn-secondary-sm">Reset All</button>
+    </header>
+
+    <main class="container">
+
+        <!-- ===================================================================
+             MODULE 1: SKILL GAP ANALYSIS & ROADMAP
+             =================================================================== -->
+        <section id="tab-gap-analyzer" class="tab-content active-tab">
+            <div class="glass-card hero-section">
+                <h2>Skill Gap Analysis Engine</h2>
+                <p>Select your target career path and current skills to generate a personalized roadmap.</p>
+                
+                <form id="assessment-form">
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label for="student-name">Student Name</label>
+                            <input type="text" id="student-name" placeholder="Syed Mohib" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="degree-program">Degree / Discipline</label>
+                            <input type="text" id="degree-program" placeholder="BS Computer Science" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="semester">Current Semester</label>
+                            <input type="number" id="semester" placeholder="6" min="1" max="8" required>
+                        </div>
+                    </div>
+
+                    <h3>Select Target Career Track</h3>
+                    <div class="radio-group">
+                        <label class="radio-card"><input type="radio" name="careerPath" value="fullstack" checked> Full Stack Developer</label>
+                        <label class="radio-card"><input type="radio" name="careerPath" value="ai_engineer"> AI Engineer</label>
+                        <label class="radio-card"><input type="radio" name="careerPath" value="cybersecurity"> Cybersecurity Analyst</label>
+                    </div>
+
+                    <h3>Select Acquired Skills</h3>
+                    <div class="skills-grid">
+                        <label class="checkbox-card"><input type="checkbox" name="skills" value="HTML"> HTML5</label>
+                        <label class="checkbox-card"><input type="checkbox" name="skills" value="CSS"> CSS3</label>
+                        <label class="checkbox-card"><input type="checkbox" name="skills" value="JavaScript"> JavaScript</label>
+                        <label class="checkbox-card"><input type="checkbox" name="skills" value="Git"> Git / GitHub</label>
+                        <label class="checkbox-card"><input type="checkbox" name="skills" value="SQL"> SQL</label>
+                        <label class="checkbox-card"><input type="checkbox" name="skills" value="Python"> Python</label>
+                        <label class="checkbox-card"><input type="checkbox" name="skills" value="APIs"> REST APIs</label>
+                        <label class="checkbox-card"><input type="checkbox" name="skills" value="React"> React.js</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Generate Gap Analysis & Roadmap</button>
+                </form>
+            </div>
+
+            <!-- Dashboard Output -->
+            <div id="dashboard" class="glass-card dashboard-section hidden">
+                <div class="dashboard-header">
+                    <div>
+                        <h2 id="display-user-name">Student Profile</h2>
+                        <p class="sub-text">Targeting: <strong id="display-target-path">Role</strong></p>
+                    </div>
+                    <div class="badge-box">
+                        <span id="status-badge" class="status-badge">Beginner</span>
+                    </div>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h4>Readiness Score</h4>
+                        <div id="readiness-percentage" class="metric-value">0%</div>
+                        <div class="progress-bar-bg"><div id="readiness-progress-fill" class="progress-bar-fill"></div></div>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Available Skills (<span id="count-available">0</span>)</h4>
+                        <ul id="available-skills-list" class="tag-list"></ul>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Missing Skills (<span id="count-missing">0</span>)</h4>
+                        <ul id="missing-skills-list" class="tag-list"></ul>
+                    </div>
+                </div>
+
+                <h3>Personalized Action Roadmap</h3>
+                <div id="roadmap-timeline-container" class="timeline"></div>
+            </div>
+        </section>
+
+
+        <!-- ===================================================================
+             MODULE 2: SMART ATS CV CHECKER
+             =================================================================== -->
+        <section id="tab-cv-checker" class="tab-content hidden-tab">
+            <div class="glass-card">
+                <h2>📄 Smart ATS Resume & CV Matcher</h2>
+                <p>Paste your CV text below to check keyword match against target industry standards.</p>
+                
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Target Role for CV Analysis</label>
+                        <select id="cv-target-role" class="select-input">
+                            <option value="fullstack">Full Stack Developer</option>
+                            <option value="ai_engineer">AI / ML Engineer</option>
+                            <option value="cybersecurity">Cybersecurity Analyst</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="cv-text-input">Paste Resume / CV Content</label>
+                    <textarea id="cv-text-input" rows="8" placeholder="Paste your full resume text here (Education, Skills, Experience, Projects...)" class="text-area-input"></textarea>
+                </div>
+
+                <button type="button" onclick="analyzeCV()" class="btn btn-primary">Analyze Resume with ATS Engine</button>
+
+                <!-- CV Result Output -->
+                <div id="cv-result-box" class="cv-results hidden">
+                    <hr class="divider">
+                    <h3>ATS Match Report</h3>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <h4>ATS Compatibility</h4>
+                            <div id="cv-ats-score" class="metric-value">0%</div>
+                        </div>
+                        <div class="metric-card">
+                            <h4>Detected Keywords</h4>
+                            <ul id="cv-found-keywords" class="tag-list"></ul>
+                        </div>
+                        <div class="metric-card">
+                            <h4>Missing Core Keywords</h4>
+                            <ul id="cv-missing-keywords" class="tag-list"></ul>
+                        </div>
+                    </div>
+                    <div id="cv-feedback-message" class="info-box"></div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===================================================================
+             MODULE 3: COURSE-TO-INDUSTRY MAPPER (NEW & IMPROVED)
+             =================================================================== -->
+        <section id="tab-course-mapper" class="tab-content hidden-tab">
+            <div class="glass-card">
+                <h2>📚 University Course vs. Industry Tech Mapper</h2>
+                <p>See what university courses teach versus what modern tech companies actually expect.</p>
+                
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Select Academic Course Subject</label>
+                        <select id="course-subject-select" class="select-input" onchange="mapCourseToIndustry()">
+                            <option value="dbms">Database Management Systems (DBMS)</option>
+                            <option value="oop">Object-Oriented Programming (OOP)</option>
+                            <option value="dsa">Data Structures & Algorithms (DSA)</option>
+                            <option value="web">Web Technologies & Engineering</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="course-mapper-output" class="metrics-grid" style="margin-top: 20px;">
+                    <!-- JS will populate comparison cards here -->
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===================================================================
+             MODULE 4: RAPID SKILL QUIZ
+             =================================================================== -->
+        <section id="tab-skill-quiz" class="tab-content hidden-tab">
+            <div class="glass-card">
+                <h2>⚡ 60-Second Skill Verification Quiz</h2>
+                <p>Test your conceptual understanding of Web & Software Architecture.</p>
+                
+                <div id="quiz-container">
+                    <div class="quiz-question">
+                        <h4>1. What is the primary purpose of REST APIs in modern web development?</h4>
+                        <label><input type="radio" name="q1" value="wrong"> Styling HTML elements</label><br>
+                        <label><input type="radio" name="q1" value="correct"> Standardized communication between client and server</label><br>
+                        <label><input type="radio" name="q1" value="wrong"> Managing database tables directly in browser</label>
+                    </div>
+                    <br>
+                    <div class="quiz-question">
+                        <h4>2. What does Git version control allow developers to do?</h4>
+                        <label><input type="radio" name="q2" value="correct"> Track code history, branch, and collaborate safely</label><br>
+                        <label><input type="radio" name="q2" value="wrong"> Host web applications automatically on cloud</label><br>
+                        <label><input type="radio" name="q2" value="wrong"> Compile JavaScript code faster</label>
+                    </div>
+                    <br>
+                    <button type="button" onclick="gradeQuiz()" class="btn btn-primary">Submit Quiz & Verify Skill</button>
+                </div>
+
+                <div id="quiz-score-box" class="info-box hidden" style="margin-top: 20px;"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
